@@ -99,7 +99,8 @@ bool Currency::generateGenesisBlock() {
   //std::string hex_tx_represent = Common::toHex(txb);
 
   // Hard code coinbase tx in genesis block, because through generating tx use random, but genesis should be always the same
-  std::string genesisCoinbaseTxHex = "010a01ff00018080d287e2bc2d02400fa471f42b5d2619835d5387609df104b3af197de62c638ae0d518d9d06b3a2101cf744b38fb9843560d7bff26c5b25350bdb4c5fdde62a63b62aea829cc643491";
+  std::string genesisCoinbaseTxHex = "010a01ff000180809aa6eaafe30102165bc47a97266f83bc70adf65e9f177213ffe16f3ec5263481d199af4d41b801210197e6f3f6fa29b9bd6d2133557b080be855d48deaedb565bb4548c0a509b89b2f";
+  //std::string genesisCoinbaseTxHex = "010a01ff00018080d287e2bc2d02400fa471f42b5d2619835d5387609df104b3af197de62c638ae0d518d9d06b3a2101cf744b38fb9843560d7bff26c5b25350bdb4c5fdde62a63b62aea829cc643491";
   BinaryArray minerTxBlob;
 
   bool r =
@@ -166,7 +167,7 @@ uint32_t Currency::upgradeHeight(uint8_t majorVersion) const {
     return static_cast<uint32_t>(-1);
   }
 }
-
+// este metodo es el que valida los bloques
 bool Currency::getBlockReward(uint8_t blockMajorVersion, size_t medianSize, size_t currentBlockSize, uint64_t alreadyGeneratedCoins,
   uint64_t fee, uint64_t& reward, int64_t& emissionChange) const {
 
@@ -174,20 +175,20 @@ bool Currency::getBlockReward(uint8_t blockMajorVersion, size_t medianSize, size
 
   // LUK REWARD CHANGES
   uint64_t baseReward;
-  uint64_t factorCut = 44500000; // 0.445 LUK
-  uint64_t coinCut_v1 = 264000000000000; // 2.64M LUK
-  uint64_t coinCut_v2 = 292000000000000; // 2.92M LUK
+  //uint64_t factorCut = 44500000; // 0.445 LUK
+  //uint64_t coinCut_v1 = 264000000000000; // 2.64M LUK
+  //uint64_t coinCut_v2 = 292000000000000; // 2.92M LUK
 
-  if(alreadyGeneratedCoins < coinCut_v1) {
+ // if(alreadyGeneratedCoins < coinCut_v1) {
     // 100M >> 22
-    baseReward = (m_moneySupply - alreadyGeneratedCoins) >> m_emissionSpeedFactor;
- } else if (alreadyGeneratedCoins >= coinCut_v1 && alreadyGeneratedCoins <= coinCut_v2) {
+  //  baseReward = (m_moneySupply - alreadyGeneratedCoins) >> m_emissionSpeedFactor;
+// } else if (alreadyGeneratedCoins >= coinCut_v1 && alreadyGeneratedCoins <= coinCut_v2) {
     // 100M -> 0,445
-    baseReward = factorCut;
- } else {
+   // baseReward = factorCut;
+// } else {
     // 100M >> 22
     baseReward = (m_moneySupply - alreadyGeneratedCoins) >> m_emissionSpeedFactor;
- }
+ //}
 
 
   //infinite minimal block rewards after block reward falls under m_finalSubsidy per minute
